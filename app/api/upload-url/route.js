@@ -18,7 +18,7 @@ export async function POST(req) {
     const key = `uploads/${Date.now()}-${body.fileName}`
 
     const command = new PutObjectCommand({
-      Bucket: process.env.R2_BUCKET_NAME,
+      Bucket: process.env.NEXT_PUBLIC_R2_BUCKET_NAME,
       Key: key,
       ContentType: body.fileType
     })
