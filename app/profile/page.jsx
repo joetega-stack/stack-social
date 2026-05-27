@@ -1,5 +1,5 @@
 "use client";
-import React, { useState,useEffect } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import { IoArrowBack } from "react-icons/io5";
 import { BsThreeDots } from "react-icons/bs";
 import Link from "next/link";
@@ -20,7 +20,7 @@ import EditProfile from "@/components/editProfile";
 import Settings from "@/components/settings";
 
 
-const Page = () => {
+const ProfileContent = () => {
   const params = useSearchParams();
   const router = useRouter();
   const tab = params.get("tab") || "getPost";
@@ -190,4 +190,10 @@ const Page = () => {
   );
 };
 
-export default Page;
+export default function Page() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <ProfileContent />
+    </Suspense>
+  );
+}

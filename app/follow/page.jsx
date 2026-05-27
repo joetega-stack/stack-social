@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState,Suspense } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { getFollowers } from "@/utils/profile";
 import Followers from "@/components/followers";
@@ -7,7 +7,7 @@ import Following from "@/components/following";
 import { IoArrowBack } from "react-icons/io5";
 import Link from "next/link";
 
-function FollowContent(){
+function FollowPageContent() {
   const [followers, setFollowers] = useState([]);
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -51,13 +51,13 @@ function FollowContent(){
       <div>{tab === "following" ? <Following /> : <Followers />}</div>
     </div>
   );
-};
+}
 
 
-export default function FollowContent() {
+export default function Page() {
   return (
     <Suspense fallback={<div>Loading...</div>}>
-      <FollowContent />
+      <FollowPageContent />
     </Suspense>
   )
 }

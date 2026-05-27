@@ -3,14 +3,14 @@ import Header from "@/components/header";
 import Footer from "@/components/footer";
 import Feed from "@/components/feed";
 import { useSearchParams } from "next/navigation";
-import { useContext, useState } from "react";
+import { Suspense, useContext } from "react";
 import { appContext } from "@/context/globalContext";
 import Aside from "../../components/aside";
 import Discover from "../../components/discover";
 import FindFriends from "@/components/findFriends";
 
 
-export default function Home() {
+function MainPageContent() {
   const params = useSearchParams();
   const { active,activeRight } = useContext(appContext);
 
@@ -27,5 +27,13 @@ export default function Home() {
       </div>
       <Footer />
     </div>
+  );
+}
+
+export default function Home() {
+  return (
+    <Suspense fallback={<div className="h-full w-full" />}>
+      <MainPageContent />
+    </Suspense>
   );
 }

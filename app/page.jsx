@@ -5,9 +5,10 @@ import Footer from "@/components/footer";
 import Feed from "@/components/feed"
 import Discover from "@/components/discover"
 import { useSearchParams } from "next/navigation";
+import { Suspense } from "react";
 
 
-export default function Home() {
+function HomeContent() {
   const params = useSearchParams()
 
   const tab = params.get("tab") || "feed"
@@ -21,5 +22,13 @@ export default function Home() {
       </div>
       <Footer/>
     </div>
+  );
+}
+
+export default function Home() {
+  return (
+    <Suspense fallback={<div className="h-dvh" />}>
+      <HomeContent />
+    </Suspense>
   );
 }
