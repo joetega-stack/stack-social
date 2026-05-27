@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useRef, useContext, useEffect } from "react";
+import React, { useState, useRef, useContext, useEffect,Suspense } from "react";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { useRouter } from "next/navigation";
 import { appContext } from "@/context/globalContext";
@@ -7,7 +7,7 @@ import { FaTimes } from "react-icons/fa";
 import { useSearchParams } from "next/navigation";
 import { RxPeople } from "react-icons/rx";
 
-const Header = ({ scrollContainerId }) => {
+const HeaderContent = ({ scrollContainerId }) => {
   const router = useRouter();
   const params = useSearchParams();
   const [hideHeader, setHideHeader] = useState(false);
@@ -61,5 +61,13 @@ const Header = ({ scrollContainerId }) => {
     </div>
   );
 };
+
+const Header = ({scrollContainerId}) => {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <HeaderContent scrollContainerId={scrollContainerId}/>
+    </Suspense>
+  )
+}
 
 export default Header;
