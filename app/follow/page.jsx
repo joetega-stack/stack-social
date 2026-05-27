@@ -7,7 +7,7 @@ import Following from "@/components/following";
 import { IoArrowBack } from "react-icons/io5";
 import Link from "next/link";
 
-const Page = () => {
+export default function Page(){
   const [followers, setFollowers] = useState([]);
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -53,4 +53,4 @@ const Page = () => {
   );
 };
 
-export default Page;
+
