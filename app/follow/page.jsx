@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState,Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { getFollowers } from "@/utils/profile";
 import Followers from "@/components/followers";
@@ -7,7 +7,7 @@ import Following from "@/components/following";
 import { IoArrowBack } from "react-icons/io5";
 import Link from "next/link";
 
-export default function Page(){
+function FollowContent(){
   const [followers, setFollowers] = useState([]);
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -54,3 +54,10 @@ export default function Page(){
 };
 
 
+export default function FollowContent() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <FollowContent />
+    </Suspense>
+  )
+}
