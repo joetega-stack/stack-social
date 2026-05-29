@@ -13,6 +13,8 @@ const Discover = () => {
   return (
     <div className="p-5 mb-20">
       <div>
+        {publicF ? 
+          <div>
         {publicF.map((feed) => {
           console.log("feed", feed);
           const isOpen = openPostId === feed.id;
@@ -143,6 +145,8 @@ const Discover = () => {
             </div>
           );
         })}
+      </div>
+        : <div>Loading...</div>}
       </div>
     </div>
   );
