@@ -18,6 +18,7 @@ const Page = () => {
   });
 
   const router = useRouter();
+  const API_URL = process.env.NEXT_PUBLIC_SERVER_BASE_URL
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -29,7 +30,7 @@ const Page = () => {
         password: details.password,
       };
 
-      const data = await apiFetch("/auth/login", payload, "post");
+      const data = await apiFetch(`${API_URL}/auth/login", ${payload}, "POST`);
       const token = data?.access_token || data?.token;
       if (!token) {
         throw new Error("Login response did not include an access token");
