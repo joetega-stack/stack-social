@@ -6,7 +6,7 @@ import { appContext } from "@/context/globalContext";
 import Upload from "@/components/upload";
 
 const CreatePost = () => {
-  const { loading, setLoading, setOpenPost } = useContext(appContext);
+  const { loading, setLoading, setOpenPost,setPublicF,publicF } = useContext(appContext);
   const [content, setContent] = useState({
     textContent: "",
     media_url: "",
@@ -20,11 +20,15 @@ const CreatePost = () => {
 
     try {
       setLoading(true);
-      await createPost({
+      const newPost = await createPost({
         content: content.textContent,
         media_url: content.media_url,
         visibility: content.visibility,
       });
+
+      setPublicF((prev) => [newPost, ...prev])
+      
+      console.log("NEW POST", newPost)
       setContent({
         textContent: "",
         media_url: "",
@@ -45,20 +49,20 @@ const CreatePost = () => {
   return (
     <div className="fixed top-0 left-0 w-full h-full  flex items-center justify-center bg-white/30 backdrop-blur-lg">
       <form
-        className="border w-150 p-5 rounded-2xl"
+        className="border border-gray-400 lg:w-150 p-5 rounded-2xl"
         onSubmit={handleCreatePost}
       >
         <div className="flex justify-between mb-2">
           <button
             onClick={() => setOpenPost(false)}
-            className="bg-blue-200 px-2 py-1 rounded-sm cursor-pointer"
+            className="bg-violet-700 text-white px-2 py-1 rounded-sm cursor-pointer"
             type="button"
           >
             Cancle
           </button>
           <div>
             <button
-              className="bg-blue-200 px-2 py-1 rounded-sm cursor-pointer"
+              className="bg-violet-700 px-5 text-white py-1 rounded-sm cursor-pointer"
               type="submit"
             >
               {loading ? "Posting..." : "Post"}
@@ -66,18 +70,17 @@ const CreatePost = () => {
           </div>
         </div>
         <div className="flex gap-2">
-          <div>profile-img</div>
           <textarea
             name="post"
             type="text"
             value={content.textContent}
-            className="border flex-1 h-50 rounded-sm border-gray-400"
+            className="border flex-1 h-50 rounded-sm border-gray-300 outline-none p-2"
             onChange={(e) =>
               setContent((prev) => ({ ...prev, textContent: e.target.value }))
             }
           ></textarea>
         </div>
-        <div className="border border-gray-400 size-10 rounded-full overflow-hidden">
+        <div className="border border-gray-400 size-10 rounded-full overflow-hidden mt-2">
           <Upload
             value={content.media_url}
             onUpload={(key) =>

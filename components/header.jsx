@@ -43,19 +43,19 @@ const HeaderContent = ({ scrollContainerId }) => {
       className={`header ${hideHeader ? "hide" : ""} h-30 w-full flex flex-col px-3 justify-between border-b border-gray-400 bg-zinc-50`}
     >
       <div className="flex justify-between px-5 mt-3">
-        <div className="cursor-pointer" onClick={toggleAside}>
+        <div className="cursor-pointer lg:hidden" onClick={toggleAside}>
         {active ? <FaTimes size={25} /> : <RxHamburgerMenu size={25} />}
       </div>
-        <div onClick={toggleRight}>
+        <div onClick={toggleRight} className="cursor-pointer lg:hidden">
           <RxPeople size={25} />
       </div>
       </div>
       <div className="group w-full h-10 *:w-[50%] *:hover:bg-gray-100 *:cursor-pointer flex justify-between *:flex *:justify-center *:items-baseline-last">
         <div onClick={() => router.push("?tab=discover")}>
-        <button  className={`${tab === "discover" ? "border-b-4 border-violet-700 px-2":""}`}>Discover</button>
+        <button  className={`${tab === "discover" ? "border-b-4 border-violet-700 px-2":""} cursor-pointer`}>Discover</button>
         </div>
         <div onClick={() => router.push("?tab=feed")}>
-        <button className={`${tab === "feed" ? "border-b-4 border-violet-700 px-2" : ""}`}>Feed</button>
+        <button className={`${tab === "feed" ? "border-b-4 border-violet-700 px-2" : ""} cursor-pointer`}>Feed</button>
         </div>
       </div>
     </div>

@@ -2,14 +2,11 @@
 import React, { Suspense, useEffect, useState } from "react";
 import { IoArrowBack } from "react-icons/io5";
 import { BsThreeDots } from "react-icons/bs";
-import Link from "next/link";
 import Feed from "@/components/feed";
 import GetPosts from "@/components/getPosts";
 import SearchPost from "@/components/searchPost";
 import { useSearchParams, useRouter } from "next/navigation";
-import { IoChatboxEllipsesOutline } from "react-icons/io5";
 import CreatePost from "@/components/createPost";
-import { HiOutlinePencilSquare } from "react-icons/hi2";
 import { appContext } from "@/context/globalContext";
 import { useContext } from "react";
 import Upload from "@/components/upload";
@@ -18,6 +15,8 @@ import { getCurrentUser } from "@/utils/profile";
 import { getToken } from "@/lib/auth";
 import EditProfile from "@/components/editProfile";
 import Settings from "@/components/settings";
+import { startChat } from '@/utils/profile'
+import MainFooter from "@/components/main-footer";
 
 
 const ProfileContent = () => {
@@ -80,16 +79,27 @@ const ProfileContent = () => {
     }
   };
 
+  async function startUserChat(targetUserId) {
+    try {
+      const res = await startChat(targetUserId)
+      router.push(`/message/${res.conversation_id}`)
+      console.log(res)
+    } catch (err) {
+      console.error(err)
+    }
+  }
+
+
   if (!currentUser) return <div>Loading...</div>;
 
   return (
-    <div className="bg-zinc-50" >
-      <Link
-        href={"/main-page"}
+    <div className="bg-zinc-50 h-dvh" >
+      <div
+        onClick={()=> router.back()}
         className="absolute w-8 h-8 bg-black/30 text-white font-bold text-2xl flex justify-center items-center rounded-full m-2 cursor-pointer active:scale-98"
       >
         <IoArrowBack />
-      </Link>
+      </div>
       <section className="h-40 bg-gray-200 text-center border-b border-gray-300">
         {currentUser.cover_photo ? (
           <img
@@ -121,27 +131,24 @@ const ProfileContent = () => {
               />
             )}
             </div>
-            <p className="mt-15 text-3xl">{currentUser.username}</p>
+            <p className="mt-15 text-3xl font-serif">{currentUser.username}</p>
             <p className="">{`@${currentUser.username}`}</p>
             <p>{currentUser.bio}</p>
             <div className="*:flex *:gap-2 flex gap-2">
-              <Link href={"/follow?tab=followers"} className="cursor-pointer">
-                followers <p className="font-bold">{currentUser.followers_count}</p>
-              </Link>
-              <Link href={"/follow?tab=following"}>
-                following <p className="font-bold">{currentUser.following_count}</p>
-              </Link>
+              <div onClick={()=> router.push("/follow?tab=followers")} className="cursor-pointer">
+                followers <p className="font-semibold">{currentUser.followers_count}</p>
+              </div>
+              <div onClick={()=> router.push("/follow?tab=following")}>
+                following <p className="font-semibold">{currentUser.following_count}</p>
+              </div>
             </div>
           </div>
         )}
 
         <div className="flex gap-3 items-start mt-2 *:cursor-pointer *:active:scale-98">
-          <Link href={"/message"} className="size-8 bg-violet-700 text-white rounded-full flex justify-center items-center mr-10">
-            <IoChatboxEllipsesOutline />
-          </Link>
           <button
             type="button"
-            className="py-1 px-2.5 rounded-2xl bg-violet-700 text-white"
+            className="py-1 lg:px-2.5 w-25 rounded-2xl bg-violet-700 text-white"
             onClick={() => setOpenForm(true)}
           >
             Edit Profile
@@ -177,12 +184,7 @@ const ProfileContent = () => {
         {tab === "feed" && <Feed />}
         {tab === "search" && <SearchPost />}
       </section>
-      <div
-        onClick={() => setOpenPost(!openPost)}
-        className="fixed right-10 bottom-10 p-4 rounded-full bg-violet-700 cursor-pointer"
-      >
-        {openPost ? "" : <HiOutlinePencilSquare className="text-white" size={25}/>}
-      </div>
+      <MainFooter/>
       {openForm ? <EditProfile /> : null}
       {openPost ? <CreatePost /> : null}
       {openSettings? <Settings/>: null}

@@ -2,13 +2,12 @@
 import React, { useState, useContext } from "react";
 import { appContext } from "@/context/globalContext";
 import { formatDate } from "@/utils/formatdate";
-import Likes from "@/components/likes";
-import CreateCommentPost from "./createCommentPost";
-
+import { IoArrowBack } from "react-icons/io5";
+import MainFooter from "@/components/main-footer";
 
 
 const SearchPost = () => {
-  const { posts, setPosts, query, setQuery } = useContext(appContext);
+  const { posts, setPosts, query, setQuery,router } = useContext(appContext);
 
   const filteredPosts = query
     ? posts.filter((post) =>
@@ -17,9 +16,13 @@ const SearchPost = () => {
     : [];
 
   return (
-    <div className="lg:w-110 lg:fixed lg:right-0 lg:border-l border-gray-300 lg:h-dvh lg:overflow-y-scroll">
+      <div>
+           <div className="w-8 h-8 bg-black/30 text-white font-bold text-2xl flex justify-center items-center rounded-full m-2 cursor-pointer active:scale-98"
+                onClick={()=> router.back()}>
+                  <IoArrowBack />
+                </div>
       <section className="flex justify-center mt-3">
-        <div className="flex border border-gray-300 h-10 lg:w-100 rounded-lg overflow-hidden p-1">
+        <div className="flex border border-gray-300 h-10 lg:w-150 w-90 rounded-lg overflow-hidden p-1">
           <input
             type="text"
             placeholder="Search..."
@@ -40,7 +43,7 @@ const SearchPost = () => {
           return (
             <div key={post.id}>
               {post.content && (
-                <div className="lg:w-100 mt-3 border-b border-gray-300">
+                <div>
                   <div className="flex gap-2">
                     <div className="size-10 border rounded-full overflow-hidden">
                       <img
@@ -57,7 +60,7 @@ const SearchPost = () => {
                     </div>
                   </div>
                   <div className="px-12">
-                    <div className="lg:w-85 w-80 whitespace-pre-wrap break-words text-sm">
+                    <div className="w-85 lg:w-120 whitespace-pre-wrap break-words text-sm">
                       {post.content}
                     </div>
                     {post.media_url && (
@@ -65,29 +68,20 @@ const SearchPost = () => {
                         <img
                           src={`${process.env.NEXT_PUBLIC_R2_PUBLIC_URL}/${post.media_url}`}
                           alt="media"
-                          className="w-auto lg:w-120 max-w-80 max-h-80 h-auto rounded-lg"
+                          className="w-auto lg:w-120 max-w-80 max-h-80 rounded-lg"
                         />
                       </div>
                     )}
 
-                    <div className="flex items-center gap-3 w-fit">
-                    <Likes postId={post.id} />
-                    <div className="flex items-center gap-1">
-                      <CreateCommentPost
-                        content={post.content}
-                        postId={post.id}
-                        
-                      />
-                      <div>{post.comments_count}</div>
-                    </div>
-                  </div>
+                    <div>{post.likes_count}</div>
                   </div>
                 </div>
               )}
             </div>
           );
         })}
-      </section>
+          </section>
+          <MainFooter/>
     </div>
   );
 };

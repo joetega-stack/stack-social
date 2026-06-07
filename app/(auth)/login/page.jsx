@@ -45,6 +45,7 @@ const Page = () => {
 
   return (
     <div className="border rounded-2xl w-100 p-5">
+      
       <h1 className="text-center text-2xl font-bold">Login</h1>
       {error ? <p className="mt-2 text-sm text-red-600">{error}</p> : null}
       <form onSubmit={handleSubmit} className="flex flex-col p-5 gap-3">

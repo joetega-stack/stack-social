@@ -21,8 +21,14 @@ export async function getUserPosts(user_id) {
   return await apiFetch(`/posts/user/${user_id}`);
 }
 
+export async function getFriendPosts(user_id) {
+  const res = await apiFetch(`/posts/friend/${user_id}`);
+  return res
+}
+
 export async function updatePost(post_id, content) {
-  const res = await apiFetch(`/posts/update/${post_id}`, { content }, "put");
+  const res = await apiFetch(`/posts/update/${post_id}`, { content }, "PUT");
+  return res
 }
 
 export async function deletePost(post_id) {
@@ -37,8 +43,8 @@ export async function publicFeed() {
 
 //
 export async function followingFeed() {
-  return await apiFetch("/posts/feed/following");
-  
+  const res= await apiFetch("/posts/feed/following");
+  return res
 }
 
 export async function likePost(post_id) {
@@ -46,7 +52,8 @@ export async function likePost(post_id) {
 }
 
 export async function getPostLikes(post_id) {
-  return await apiFetch(`/posts/${post_id}/likes`);
+  const res = await apiFetch(`/posts/${post_id}/likes`);
+  return res
 }
 
 export async function commentPost(post_id, content) {

@@ -7,6 +7,7 @@
 
 @theme inline {
   --font-sans: var(--font-inter);
+  --font-mono: var(--font-mono);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -17,8 +18,8 @@
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
+  color: rgb(66, 65, 65);
+  font-family: var(--font-google-sans);
 }
 
 .header {

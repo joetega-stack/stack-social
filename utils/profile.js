@@ -11,9 +11,6 @@ export async function getCurrentUser() {
     return res
 }
 
-export async function getUserProfile(id) {
-    const res =await apiFetch(`/user/${id}`)
-}
 
 export async function updateUserProfile(postData) {
     const profileImage = postData.profile_image || postData.profile_url || null;
@@ -43,6 +40,12 @@ export async function getAllUsers() {
     return await apiFetch("/all/users")
 }
 
+//
+export async function getUserProfile(id) {
+    const res = await apiFetch(`/user/${id}`)
+    return res
+}
+
 export async function getFollowers() {
     return await apiFetch("/me/followers")
 }
@@ -57,4 +60,16 @@ export async function updatePrivacy() {
 
 export async function selfDeleteAccount() {
     return await apiFetch(`/me/delete`,null,"DELETE")
+}
+
+export async function startChat(targetUserId) {
+    return await apiFetch(`/chat/start/${targetUserId}`,null, "POST")
+}
+
+export async function sendMessage(conversationId,content) {
+    return await apiFetch(`/chat/${conversationId}/message`,{content}, "POST")
+}
+
+export async function getMessages(conversationId) {
+    return await apiFetch(`/chat/${conversationId}/messages`)
 }

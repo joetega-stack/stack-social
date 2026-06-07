@@ -15,7 +15,9 @@ const Likes = ({ postId }) => {
         setLiked(res.liked)
         setLikesCount(res.likes_count)
       } catch (err) {
-        console.error("fetch likes error",err)
+        if (err?.message === "Post not found") {
+          return
+        }
       }
     }
     fetchLikes()

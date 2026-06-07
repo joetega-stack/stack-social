@@ -3,6 +3,7 @@ import { useState, useEffect, useContext, createContext, useMemo } from "react";
 import { publicFeed } from "@/utils/tasks";
 import { getDecodedToken } from "@/lib/auth";
 import { getUserPosts } from "@/utils/tasks";
+import { useRouter } from "next/navigation";
 
 export const appContext = createContext({});
 
@@ -19,7 +20,9 @@ const AppcontextProvider = ({ children }) => {
   const [openSettings, setOpenSettings] = useState(false);
   const [activeRight, setActiveRight] = useState(false);
   const [posts, setPosts] = useState([]);
-    const [username, setUsername] = useState(null);
+  const [username, setUsername] = useState(null);
+  const [query, setQuery] = useState("");
+  const router = useRouter()
   
 
   const toggleAside = () => {
@@ -99,7 +102,7 @@ const AppcontextProvider = ({ children }) => {
       setOpenSettings,
       activeRight,
       setActiveRight,
-      toggleRight,posts, setPosts,username, setUsername
+      toggleRight,posts, setPosts,username, setUsername, query, setQuery,router
     }),
     [
       error,
@@ -111,7 +114,7 @@ const AppcontextProvider = ({ children }) => {
       count,
       openForm,
       openSettings,
-      activeRight,posts,username
+      activeRight,posts,username,query,router
     ],
   );
   return <appContext.Provider value={values}>{children}</appContext.Provider>;
