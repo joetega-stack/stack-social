@@ -23,7 +23,7 @@ export default function RootLayout({ children }) {
       lang="en"
       className={cn("font-sans", inter.variable, jetbrainsMono.variable)}
     >
-      <body className={`${googleSans.variable} min-h-full flex flex-col font-sans`}>
+      <body className={`${googleSans.variable} min-h-full flex flex-col font-sans bg-zinc-50`}>
         <AppcontextProvider>{children}</AppcontextProvider>
       </body>
     </html>
