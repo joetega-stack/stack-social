@@ -91,7 +91,7 @@ const Discover = () => {
                               {formatDate(feed.updated_at ?? feed.created_at)}
                             </p>
                           </div>
-                          <div className="w-85 lg:w-120 whitespace-pre-wrap break-words text-sm border">{feed.content}</div>
+                          <div className="w-85 lg:w-120 whitespace-pre-wrap break-words text-sm">{feed.content}</div>
                           <div className=" mt-1">
                             {imageUrl ? (
                               <img
