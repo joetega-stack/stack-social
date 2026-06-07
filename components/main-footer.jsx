@@ -21,7 +21,7 @@ const MainFooter = () => {
   ];
   return (
     <div className="fixed flex items-end justify-between bottom-0 h-40 w-full lg:w-full lg:hidden flex-col">
-            <div className="mr-15">
+            <div className="mr-7">
               <div
               onClick={() => setOpenPost(!openPost)}
               className="p-4 rounded-full bg-violet-700 border-2 border-white cursor-pointer"
