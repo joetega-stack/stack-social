@@ -82,7 +82,7 @@ const Page = () => {
         </label>
         <button
           type="submit"
-          className="w-full h-10 rounded-md bg-violet-700 font-bold cursor-pointer active:scale-98"
+          className="w-full text-white h-10 rounded-md bg-violet-700 font-bold cursor-pointer active:scale-98"
         >
           {loading? <Spinner/> :"Continue"}
         </button>
