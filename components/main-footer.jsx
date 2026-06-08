@@ -31,14 +31,14 @@ const MainFooter = () => {
             {openPost ? <CreatePost /> : ""}
             </div>
       <div className="w-full flex border-t border-gray-300 h-20 items-center px-10 bg-zinc-50">
-        <Link href={"/main-page"} className="lg:text-3xl w-[50%] text-2xl font-bold text-start font-mono text-violet-800">Social</Link >
-      <div className="flex w-[50%] justify-between">
+        <Link href={"/main-page"} className="lg:text-3xl flex-1 text-2xl font-bold text-start font-mono text-violet-800">Social</Link >
+      <div className="flex w-50 justify-between">
         {links.map((link) => {
           return (
             <Link
             key={link.href}
             href={link.href}
-            className={`transition-colors duration-300 text-black text-2xl py-2 px-3 rounded-2xl ${pathname === link.href ? "bg-gray-100 " : "bg-violet-700 text-white"}`}
+            className={`transition-colors duration-300 text-black text-2xl py-2 px-3 rounded-2xl ${pathname === link.href ? " bg-violet-700 text-white" : "bg-gray-100 "}`}
             >
               {link.label}
             </Link>
