@@ -1,23 +1,37 @@
 "use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { appContext } from "@/context/globalContext";
 import { HiOutlinePencilSquare } from "react-icons/hi2";
 import CreatePost from "./createPost";
-import { IoHomeOutline,IoSearchOutline,IoPersonOutline } from "react-icons/io5";
-
+import { getCurrentUser } from "@/utils/profile";
+import { IoHomeOutline, IoSearchOutline, IoPersonOutline } from "react-icons/io5";
 
 
 const MainFooter = () => {
   const pathname = usePathname();
-    const { openPost, setOpenPost,router } = useContext(appContext);
+  const { openPost, setOpenPost, router } = useContext(appContext);
+  const [userId, setUserId] = useState(null)
+  
+  useEffect(() => {
+   async function getId() {
+    try {
+      const data = await getCurrentUser()
+      setUserId(data.id)
+    }
+    catch(err) {
+      console.error(err)
+    }
+    }
+  getId()  
+  },[])
   
 
   const links = [
     { href: "/main-page", label: <IoHomeOutline /> },
     { href: "/search", label: <IoSearchOutline /> },
-    { href: "/profile", label: <IoPersonOutline /> },
+    { href: `/profile/${userId}`, label: <IoPersonOutline /> },
   ];
   return (
     <div className="fixed flex items-end justify-between bottom-0 h-40 w-full lg:w-full lg:hidden flex-col">

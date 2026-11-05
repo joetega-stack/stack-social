@@ -1,19 +1,19 @@
 "use client";
 import { useState, useEffect, useContext, createContext, useMemo } from "react";
-import { publicFeed } from "@/utils/tasks";
-import { getDecodedToken } from "@/lib/auth";
-import { getUserPosts } from "@/utils/tasks";
 import { useRouter } from "next/navigation";
+import { getCurrentUser } from "@/utils/profile";
+import { discover } from "@/utils/tasks";
+import { getAllUsers } from "@/utils/profile";
+import { getToken } from "@/lib/auth";
+
 
 export const appContext = createContext({});
 
 const AppcontextProvider = ({ children }) => {
-  const [like, setLike] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [active, setActive] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
-  const [publicF, setPublicF] = useState([]);
   const [openPost, setOpenPost] = useState(false);
   const [count, setCount] = useState(0);
   const [openForm, setOpenForm] = useState(false);
@@ -21,7 +21,10 @@ const AppcontextProvider = ({ children }) => {
   const [activeRight, setActiveRight] = useState(false);
   const [posts, setPosts] = useState([]);
   const [username, setUsername] = useState(null);
+  const [discoverPost, setDiscoverPost]= useState([])
   const [query, setQuery] = useState("");
+  const [users, setUsers] = useState([]);
+
   const router = useRouter()
   
 
@@ -34,51 +37,39 @@ const AppcontextProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    async function loadFeed() {
-      try {
-        const res = await publicFeed();
-        console.log("public", res);
-        setPublicF(res);
-      } catch (err) {
-        console.error(err);
-      }
+    async function loadDiscover() {
+    try {
+      const data = await discover()
+      setDiscoverPost(data)
+      console.log("discoverData",data)
+    } catch(err) {
+      console.error(err)
     }
+    }
+    loadDiscover()
+  }, [])
+  
+   useEffect(() => {
+     async function loadUsers() {
+       
+       const token = getToken()
 
-    loadFeed();
-  }, []);
-
-  useEffect(() => {
-    let isMounted = true;
-
-    async function fetchPost() {
-      const user = getDecodedToken();
-
-      if (!user?.id) {
-        setPosts([]);
-        setUsername(null);
-        return;
-      }
-
-      setLoading(true);
-      try {
-        const data = await getUserPosts(user.id);
-        if (!isMounted) return;
-        setPosts(data);
-        setUsername(user.username ?? null);
-      } catch (err) {
-        console.error(err);
-      } finally {
-        if (isMounted) {
-          setLoading(false);
+       if (!token) return
+       
+        try {
+          const res = await getAllUsers();
+          const normalized = res.map((user) => ({
+            ...user,
+            isFollowing: user.is_following,
+          }));
+          setUsers(normalized);
+        } catch (err) {
+          console.error(err);
         }
       }
-    }
-    fetchPost();
+      loadUsers();
+    }, []);
 
-    return () => {
-      isMounted = false;
-    };
-  }, []);
 
   const values = useMemo(
     () => ({
@@ -90,8 +81,6 @@ const AppcontextProvider = ({ children }) => {
       toggleAside,
       isOpen,
       setIsOpen,
-      publicF,
-      setPublicF,
       openPost,
       setOpenPost,
       count,
@@ -102,19 +91,18 @@ const AppcontextProvider = ({ children }) => {
       setOpenSettings,
       activeRight,
       setActiveRight,
-      toggleRight,posts, setPosts,username, setUsername, query, setQuery,router
+      toggleRight,posts, setPosts,username, setUsername, query, setQuery,router,discoverPost,setDiscoverPost,setUsers,users
     }),
     [
       error,
       loading,
       active,
       isOpen,
-      publicF,
       openPost,
       count,
       openForm,
       openSettings,
-      activeRight,posts,username,query,router
+      activeRight,posts,username,query,router,discoverPost,users
     ],
   );
   return <appContext.Provider value={values}>{children}</appContext.Provider>;

@@ -7,11 +7,13 @@ import { useRouter } from "next/navigation";
 import { Spinner } from "@/components/ui/spinner";
 import { appContext } from "@/context/globalContext";
 import { saveToken } from "@/lib/auth";
-
+import { getToken } from "@/lib/auth";
+import { IoIosEyeOff,IoIosEye  } from "react-icons/io";
 
 
 const Page = () => {
-  const {loading, setLoading, error, setError} = useContext(appContext)
+  const { loading, setLoading, error, setError } = useContext(appContext);
+  const [eye, setEye]= useState(false)
   const [details, setDetails] = useState({
     email: "",
     password: "",
@@ -21,6 +23,7 @@ const Page = () => {
 
   async function handleSubmit(e) {
     e.preventDefault();
+
     setError(null);
     setLoading(true);
     try {
@@ -30,11 +33,15 @@ const Page = () => {
       };
 
       const data = await apiFetch("/auth/login", payload, "POST");
+      console.log("Login response", data);
       const token = data?.access_token || data?.token;
+      console.log("TOKEN FROM LOGIN", token);
       if (!token) {
         throw new Error("Login response did not include an access token");
       }
+
       saveToken(token);
+      console.log("Token After Saving", getToken());
       router.replace("/main-page");
     } catch (error) {
       setError(error?.message || "Failed to login");
@@ -45,11 +52,9 @@ const Page = () => {
 
   return (
     <div className="border rounded-2xl w-100 p-5">
-      
       <h1 className="text-center text-2xl font-bold">Login</h1>
       {error ? <p className="mt-2 text-sm text-red-600">{error}</p> : null}
       <form onSubmit={handleSubmit} className="flex flex-col p-5 gap-3">
-        
         <label htmlFor="Email">
           Email
           <input
@@ -67,28 +72,34 @@ const Page = () => {
         </label>
         <label htmlFor="Password">
           Password
-          <input
+          <div  className="h-10 w-full flex border border-gray-300 rounded-lg outline-none p-2">
+            <input
             value={details.password}
             onInput={(e) => {
               setDetails((prev) => {
                 return { ...prev, password: e.target.value };
               });
             }}
-            type="password"
+            type={eye ? "text":"password"}
             name="password"
-            required
-            className="h-10 w-full border border-gray-300 rounded-lg outline-none p-2"
+              required
+            className="flex-1 outline-none"
           />
+          <button type="button" className="flex cursor-pointer items-center" onClick={()=> setEye((prev)=> !prev)}>
+           {eye ?  <IoIosEye />
+            : <IoIosEyeOff />}
+          </button>
+          </div>
         </label>
         <button
           type="submit"
           className="w-full text-white h-10 rounded-md bg-violet-700 font-bold cursor-pointer active:scale-98"
         >
-          {loading? <Spinner/> :"Continue"}
+          {loading ? <Spinner /> : "Continue"}
         </button>
       </form>
       <p>
-        Don&apos;t have an account? <Link href={"/signup"}>Signup</Link>
+        Don't have an account? <Link href={"/signup"}>Signup</Link>
       </p>
     </div>
   );

@@ -1,27 +1,35 @@
 "use client";
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { appContext } from "@/context/globalContext";
 import { formatDate } from "@/utils/formatdate";
-import { IoArrowBack } from "react-icons/io5";
+import Likes from "@/components/likes";
+import CreateCommentPost from "../../components/createCommentPost";
+import { CiCirclePlus } from "react-icons/ci";
+import { GrStatusGood } from "react-icons/gr";
+import { useRouter } from "next/navigation";
 import MainFooter from "@/components/main-footer";
 
 
-const SearchPost = () => {
-  const { posts, setPosts, query, setQuery,router } = useContext(appContext);
 
-  const filteredPosts = query
-    ? posts.filter((post) =>
-        post.content.toLowerCase().includes(query.toLowerCase()),
-      )
-    : [];
+const SearchPost = () => {
+  const { discoverPost, query, setQuery, users } = useContext(appContext);
+    const router = useRouter()
+  
+    const filteredPosts = query
+      ? discoverPost.filter((post) =>
+          post.content.toLowerCase().includes(query.toLowerCase()),
+        )
+      : [];
+  
+    const filteredUsers = query
+      ? (users ?? []).filter((user) =>
+        (user.username ?? "").toLowerCase().includes(query.toLowerCase()) 
+        )
+      : [];
 
   return (
-      <div>
-           <div className="w-8 h-8 bg-black/30 text-white font-bold text-2xl flex justify-center items-center rounded-full m-2 cursor-pointer active:scale-98"
-                onClick={()=> router.back()}>
-                  <IoArrowBack />
-                </div>
-      <section className="flex justify-center mt-3">
+      <div className="">
+      <section className="flex justify-center mt-5">
         <div className="flex border border-gray-300 h-10 lg:w-150 w-90 rounded-lg overflow-hidden p-1">
           <input
             type="text"
@@ -38,12 +46,13 @@ const SearchPost = () => {
           </button>
         </div>
       </section>
-      <section className="p-5">
+      <section className="mb-20">
+        <section className="p-5">
         {filteredPosts.map((post) => {
           return (
             <div key={post.id}>
               {post.content && (
-                <div>
+                <div className="lg:w-100 mt-3 border-b border-gray-300">
                   <div className="flex gap-2">
                     <div className="size-10 border rounded-full overflow-hidden">
                       <img
@@ -60,7 +69,7 @@ const SearchPost = () => {
                     </div>
                   </div>
                   <div className="px-12">
-                    <div className="w-85 lg:w-120 whitespace-pre-wrap break-words text-sm">
+                    <div className="lg:w-85 w-80 whitespace-pre-wrap break-words text-sm">
                       {post.content}
                     </div>
                     {post.media_url && (
@@ -68,19 +77,69 @@ const SearchPost = () => {
                         <img
                           src={`${process.env.NEXT_PUBLIC_R2_PUBLIC_URL}/${post.media_url}`}
                           alt="media"
-                          className="w-auto lg:w-120 max-w-80 max-h-80 rounded-lg"
+                          className="w-auto lg:w-120 max-w-80 max-h-80 h-auto rounded-lg"
                         />
                       </div>
                     )}
 
-                    <div>{post.likes_count}</div>
+                    <div className="flex items-center gap-3 w-fit">
+                      <Likes postId={post.id} />
+                      <div className="flex items-center gap-1">
+                        <CreateCommentPost
+                          content={post.content}
+                          postId={post.id}
+                        />
+                        <div>{post.comments_count}</div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               )}
             </div>
           );
         })}
-          </section>
+      </section>
+      <section className="px-5">
+        {filteredUsers.map((user) => {
+          console.log("info",user.username, user.bio)
+          return (
+            <div key={user.id} className="flex">
+              <div
+                onClick={() => router.push(`/profile/${user.id}`)}
+                className="flex flex-1 justify-between items-center border-b border-gray-300 p-2 cursor-pointer z-20"
+              >
+                <div className="flex gap-2 ">
+                  <div className="border size-10 rounded-full mt-1 overflow-hidden">
+                    <img
+                      src={`${process.env.NEXT_PUBLIC_R2_PUBLIC_URL}/${user.profile_image}`}
+                      alt="profile"
+                      className="size-full object-cover"
+                    />
+                  </div>
+                  <div>
+                    <p className="font-bold font-serif">{`@${user.username}`}</p>
+                    <p>{user.bio}</p>
+                  </div>
+                </div>
+              </div>
+              <button
+                onClick={(e) => {
+                  handleFollow(user.id);
+                  e.stopPropagation();
+                }}
+                className="cursor-pointer active:scale-98 text-gray-400 z-10"
+              >
+                {user.isFollowing ? (
+                  <GrStatusGood size={25} className="text-green-600" />
+                ) : (
+                  <CiCirclePlus size={25} />
+                )}
+              </button>
+            </div>
+          );
+        })}
+      </section>
+      </section>
           <MainFooter/>
     </div>
   );

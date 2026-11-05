@@ -42,14 +42,10 @@ const CreatePost = () => {
     }
   }
 
-  useEffect(() => {
-    console.log("text",content.textContent)
-  },[])
-
   return (
-    <div className="fixed top-0 left-0 w-full h-full  flex items-center justify-center bg-white/30 backdrop-blur-lg">
+    <div className="fixed top-0 left-0 right-0 w-full h-full  flex items-center justify-center backdrop-blur-lg">
       <form
-        className="border border-gray-400 lg:w-150 p-5 rounded-2xl"
+        className="border border-gray-400 lg:w-150 w-full mx-15 p-5 rounded-2xl"
         onSubmit={handleCreatePost}
       >
         <div className="flex justify-between mb-2">

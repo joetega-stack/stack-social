@@ -20,6 +20,7 @@
 body {
   color: rgb(66, 65, 65);
   font-family: var(--font-google-sans);
+  font-size: 13px;
 }
 
 .header {
@@ -31,4 +32,13 @@ body {
 
 .header.hide {
   transform: translateY(-100%);
+}
+
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus {
+  -webkit-text-fill-color: inherit;
+  caret-color: inherit;
+  transition: background-color 9999s ease-in-out 0s;
 }

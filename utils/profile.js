@@ -1,16 +1,20 @@
 import { apiFetch } from "@/lib/api";
-import { Exo } from "next/font/google";
 
-//
+//admin
 export async function getUsers() {
     const res = await apiFetch("/users")
 }
 
 export async function getCurrentUser() {
-    const res = await apiFetch("/users/current")
-    return res
+   return await apiFetch("/users/current")
 }
 
+export async function getUserProfile(id) {
+    if (!id) {
+        throw new Error("User Id is required")
+    }
+    return await apiFetch(`/user/${id}`)
+}
 
 export async function updateUserProfile(postData) {
     const profileImage = postData.profile_image || postData.profile_url || null;
@@ -41,17 +45,13 @@ export async function getAllUsers() {
 }
 
 //
-export async function getUserProfile(id) {
-    const res = await apiFetch(`/user/${id}`)
-    return res
+
+export async function getFollowers(id) {
+    return await apiFetch(`followers/${id}`)
 }
 
-export async function getFollowers() {
-    return await apiFetch("/me/followers")
-}
-
-export async function getFollowing() {
-    return await apiFetch("/me/following")
+export async function getFollowing(id) {
+    return await apiFetch(`following/${id}`)
 }
 
 export async function updatePrivacy() {

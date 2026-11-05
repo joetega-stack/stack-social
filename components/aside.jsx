@@ -2,7 +2,6 @@
 import React, { useContext, useState, useEffect } from "react";
 import Link from "next/link";
 import { appContext } from "@/context/globalContext";
-import { getToken } from "@/lib/auth";
 import { getCurrentUser } from "@/utils/profile";
 import { IoPersonOutline, IoSettingsOutline } from "react-icons/io5";
 import CreatePost from "./createPost";
@@ -18,14 +17,10 @@ const Aside = () => {
   useEffect(() => {
     async function loadUser() {
       try {
-        const token = getToken();
-        console.log(token);
-        if (!token) return;
+        const data = await getCurrentUser();
+        setCurrentUser(data);
 
-        const res = await getCurrentUser();
-        setCurrentUser(res);
-
-        console.log("aside", res);
+        console.log("aside ID", data.id);
       } catch (err) {
         console.error("no current user", err);
       }
@@ -33,52 +28,49 @@ const Aside = () => {
     loadUser();
   }, []);
 
-  const imageUrl = currentUser?.profile_image
-    ? `${process.env.NEXT_PUBLIC_R2_PUBLIC_URL}/${currentUser.profile_image}`
-    : null;
 
   return (
-    <div className="fixed lg:w-200 w-full h-full top-0" onClick={toggleAside}>
+    <div className="fixed lg:w-100 w-full h-full top-0" onClick={toggleAside}>
       <div
-        className="absolute top-0 left-0 w-75 h-full bg-zinc-50 p-5 border-r border-gray-200 lg:w-110 lg:z-50"
+        className="absolute top-0 left-0 w-80 lg:100 h-full bg-zinc-50 p-5 border-r border-gray-200 lg:w-110 lg:z-50"
         onClick={(e) => e.stopPropagation()}
       >
-        <div onClick={() => router.push("/profile")}>
+        <div onClick={() => router.push(`/profile/${currentUser.id}`)}>
           {currentUser && (
             <img
-              src={imageUrl}
+              src={currentUser.profile_image}
               alt="Cover"
               className="size-15 border rounded-full cursor-pointer"
             />
           )}
         </div>
-        <div onClick={() => router.push("/profile")}>
+        <div onClick={() => router.push(`/profile/${currentUser.id}`)}>
           {currentUser && (
             <p className="font-bold text-2xl font-serif cursor-pointer">{`${currentUser.username}`}</p>
           )}
           {currentUser && <p>{`@${currentUser.username}`}</p>}
         </div>
         <div className="*:flex *:gap-2 flex gap-2">
-          <Link href={"/follow?tab=followers"} className="cursor-pointer">
+          <button onClick={()=> router.push(`/follow/${currentUser.id}?tab=followers`)} className="cursor-pointer">
             followers{" "}
             <div>
               {currentUser && (
                 <p className="font-semibold">{currentUser.followers_count}</p>
               )}
             </div>
-          </Link>
-          <Link href={"/follow?tab=following"}>
+          </button>
+          <button onClick={()=> router.push(`/follow/${currentUser.id}?tab=following`)} className="cursor-pointer">
             following{" "}
             <div>
               {currentUser && (
                 <p className="font-semibold">{currentUser.following_count}</p>
               )}
             </div>
-          </Link>
+          </button>
         </div>
         <div className="mt-5 border-t border-gray-300 py-1 *:mt-3">
           <div
-            onClick={() => router.push("/profile")}
+            onClick={() => router.push(`/profile/${currentUser.id}`)}
             className="flex items-center gap-2 cursor-pointer"
           >
             <IoPersonOutline size={25} />
