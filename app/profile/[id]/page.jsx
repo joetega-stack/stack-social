@@ -36,7 +36,7 @@ const ProfilePage = () => {
 
   const [images, setImages] = useState({
     profile_image: "",
-    cover_photo: "",
+    cover_image: "",
   });
   const {
     openPost,
@@ -85,8 +85,8 @@ const ProfilePage = () => {
   const handleImageUpload = async (field, imageUrl) => {
     try {
       const payload =
-        field === "cover_photo"
-          ? { cover_photo: imageUrl }
+        field === "cover_image"
+          ? { cover_image: imageUrl }
           : { profile_image: imageUrl };
       const updatedUser = await updateUserProfile(payload);
 
@@ -115,7 +115,7 @@ const ProfilePage = () => {
   if (!user) return <div>Loading...</div>;
 
   return (
-    <div className="bg-zinc-50 h-dvh">
+    <div className="bg-zinc-50">
       <div
         onClick={() => router.back()}
         className="absolute w-8 z-50 h-8 bg-black/30 text-white font-bold text-2xl flex justify-center items-center rounded-full m-2 cursor-pointer active:scale-98"
@@ -155,7 +155,7 @@ const ProfilePage = () => {
                 />
               ) : null}
             </div>
-            <p className="mt-15 text-3xl font-serif">{user.username}</p>
+            <p className="mt-15 text-xl font-semibold lg:text-3xl font-serif">{user.username}</p>
             <p className="">{`@${user.username}`}</p>
             <p>{user.bio}</p>
             <div className="*:flex *:gap-2 flex gap-2">
@@ -183,7 +183,7 @@ const ProfilePage = () => {
               <div className="flex mt-2 gap-3">
                 <button
                   type="button"
-                  className="py-1 lg:px-2.5 w-25 rounded-2xl bg-violet-700 text-white"
+                  className="py-1 lg:px-2.5 lg:w-25 w-20 rounded-2xl bg-violet-700 text-white"
                   onClick={() => setOpenForm(true)}
                 >
                   Edit Profile

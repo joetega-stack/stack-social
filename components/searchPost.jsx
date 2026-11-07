@@ -48,7 +48,7 @@ const SearchPost = ({ posts }) => {
                 <div className="flex gap-2">
                   <div className="size-10 border rounded-full overflow-hidden">
                     <img
-                      src={`${process.env.NEXT_PUBLIC_R2_PUBLIC_URL}/${post.profile_image}`}
+                      src={post.profile_image}
                       alt="media"
                       className="size-full object-cover"
                     />
@@ -67,7 +67,7 @@ const SearchPost = ({ posts }) => {
                   {post.media_url && (
                     <div className="">
                       <img
-                        src={`${process.env.NEXT_PUBLIC_R2_PUBLIC_URL}/${post.media_url}`}
+                        src={post.media_url}
                         alt="media"
                         className="w-auto lg:w-120 max-w-80 max-h-80 h-auto rounded-lg"
                       />

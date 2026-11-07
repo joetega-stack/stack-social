@@ -88,13 +88,10 @@ const GetPosts = ({userPosts, setUserPosts}) => {
   }
 
   return (
-    <div className="p-5">
+    <div className="p-5 overflow-y-scroll">
       <div className="flex flex-col gap-5 mb-20">
         {userPosts.map((post) => {
           const isOpen = openPostId === post.id;
-          const imageUrl = post.profile_image
-            ? `${process.env.NEXT_PUBLIC_R2_PUBLIC_URL}/${post.profile_image}`
-            : null;
           console.log("postdata",post)
           return (
             <div
@@ -116,9 +113,9 @@ const GetPosts = ({userPosts, setUserPosts}) => {
                     </button>
                   </div>
                   <div className="flex gap-2 items-center">
-                    <div className="size-10 border rounded-full overflow-hidden">
+                    <div className="size-10 border-gray-300 border rounded-full overflow-hidden">
                       <img
-                        src={imageUrl}
+                        src={post.profile_image}
                         alt="Profile"
                         className="size-full object-cover"
                       />
@@ -128,7 +125,7 @@ const GetPosts = ({userPosts, setUserPosts}) => {
                       {formatDate(post.updated_at ?? post.created_at)}
                     </p>
                   </div>
-                  <div className="px-12 w-150 whitespace-pre-wrap break-words text-sm">
+                  <div className="px-12 lg:w-150 whitespace-pre-wrap break-words text-sm">
                     {post.content}
                   </div>
                   <div className="flex items-center gap-3 w-fit px-12">
@@ -153,9 +150,9 @@ const GetPosts = ({userPosts, setUserPosts}) => {
                       return (
                         <div key={item.id}>
                           <div className="flex items-center gap-2">
-                            <div className="border size-10 rounded-full overflow-hidden">
+                            <div className="border size-10 border-gray-300 rounded-full overflow-hidden">
                               <img
-                                src={imageUrl}
+                                src={item.profile_image}
                                 alt="Profile"
                                 className="size-full object-cover"
                               />
@@ -167,7 +164,7 @@ const GetPosts = ({userPosts, setUserPosts}) => {
                               {formatDate(item.created_at)}
                             </div>
                           </div>
-                          <div className="px-12 w-150 whitespace-pre-wrap break-words text-sm">
+                          <div className="px-12 lg:w-150 whitespace-pre-wrap break-words text-sm">
                             {item.content}
                           </div>
                         </div>
@@ -179,9 +176,9 @@ const GetPosts = ({userPosts, setUserPosts}) => {
                 <div>
                   <div className="flex items-center justify-between">
                     <div className="flex gap-2 items-center">
-                      <div className="size-10 border rounded-full overflow-hidden">
+                      <div className="size-10 border-gray-300 border rounded-full overflow-hidden">
                         <img
-                          src={imageUrl}
+                          src={post.profile_image}
                           alt="Profile"
                           className="size-full object-cover"
                         />
@@ -202,7 +199,7 @@ const GetPosts = ({userPosts, setUserPosts}) => {
                       )}
                     </div>
                   </div>
-                  <div className="px-13 w-150 whitespace-pre-wrap break-words text-sm">
+                  <div className="px-13 lg:w-150 whitespace-pre-wrap break-words text-sm">
                     {post.content}
                   </div>
 

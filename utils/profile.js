@@ -18,7 +18,7 @@ export async function getUserProfile(id) {
 
 export async function updateUserProfile(postData) {
     const profileImage = postData.profile_image || postData.profile_url || null;
-    const coverPhoto = postData.cover_photo || postData.cover_image || null;
+    const coverImage =  postData.cover_image || null;
 
     return await apiFetch(
         "/update-profile",
@@ -28,9 +28,7 @@ export async function updateUserProfile(postData) {
             bio: postData.bio?.trim() || null,
             password: postData.password?.trim() || null,
             profile_image: profileImage,
-            cover_photo: coverPhoto,
-            // Keep both keys for backend compatibility.
-            cover_image: coverPhoto,
+            cover_image: coverImage,
         },
         "PATCH",
     )

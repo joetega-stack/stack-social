@@ -49,18 +49,16 @@ function FollowPageContent() {
           <IoArrowBack />
         </div>
         <button
-          className={`${tab === "followers" ? "font-semibold" : "text-gray-500"} h-6 cursor-pointer`}
+          className={`${tab === "followers" ? "font-semibold border-b-3 border-blue-600" : "text-gray-500"} h-6 cursor-pointer`}
           onClick={() => changeTab("followers")}
         >
           Followers
-          {tab ==="followers" && (<span className="absolute bottom-0 left-0 right-0 h-1 bg-blue-500 rounded-full"/>)}
         </button>
         <button
-          className={`${tab === "following" ? "font-semibold" : "text-gray-500"} h-6 cursor-pointer`}
+          className={`${tab === "following" ? "font-semibold border-b-3 border-blue-600" : "text-gray-500"} h-6 cursor-pointer`}
           onClick={() => changeTab("following")}
         >
           Following
-          {tab==="following" && (<span className="absolute bottom-0 left-0 right-0 h-1 bg-blue-500 rounded-full" />)}
         </button>
       </div>
       <div>

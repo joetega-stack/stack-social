@@ -133,12 +133,11 @@ const Feed = () => {
                         </div>
                       </div>
                       <div className="pt-3 border-t border-gray-400">
-                        {feed?.comments?.map((item, index) => {
-                          const commentKey =
-                            `${item.id ?? item.comment_id ?? `${feedKey}-${item.username}-${item.created_at}`}-${index}`;
+                        {feed?.comments?.map((item) => {
+                          
 
                           return (
-                            <div key={commentKey} className="flex gap-2 lg:w-141">
+                            <div key={item.id} className="flex gap-2 lg:w-141">
                               <div className="border size-10 rounded-full mt-2 overflow-hidden">
                                 <img
                                   src={item.profile_image}
@@ -179,13 +178,13 @@ const Feed = () => {
                             {formatDate(feed.updated_at ?? feed.created_at)}
                           </p>
                         </div>
-                        <div className="lg:w-120 w-80 whitespace-pre-wrap break-words text-sm">{feed.content}</div>
+                        <div className="lg:w-120 w-50 whitespace-pre-wrap break-words text-sm">{feed.content}</div>
                         <div className=" mt-1">
                           {feed.media_url ? (
                             <img
                               src={feed.media_url}
                               alt="post media"
-                              className="w-auto lg:w-120 max-w-80 max-h-80 rounded-lg"
+                              className="w-auto lg:w-120 max-w-50 max-h-80 rounded-lg"
                             />
                           ) : null}
                         </div>

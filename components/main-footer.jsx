@@ -34,8 +34,8 @@ const MainFooter = () => {
     { href: `/profile/${userId}`, label: <IoPersonOutline /> },
   ];
   return (
-    <div className="fixed flex items-end justify-between bottom-0 h-40 w-full lg:w-full lg:hidden flex-col">
-            <div className="mr-7">
+    <div className="fixed flex items-end justify-between bottom-0 h-40 w-full flex-col">
+            <div className="lg:mr-7 mr-3">
               <div
               onClick={() => setOpenPost(!openPost)}
               className="p-4 rounded-full bg-violet-700 border-2 border-white cursor-pointer"
@@ -44,7 +44,7 @@ const MainFooter = () => {
             </div>
             {openPost ? <CreatePost /> : ""}
             </div>
-      <div className="w-full flex border-t border-gray-300 h-20 items-center px-10 bg-zinc-50">
+      <div className="w-full flex gap-8 border-t border-gray-300 h-20 items-center px-10 bg-zinc-50">
         <Link href={"/main-page"} className="lg:text-3xl flex-1 text-2xl font-bold text-start font-mono text-violet-800">Social</Link >
       <div className="flex w-50 justify-between">
         {links.map((link) => {
