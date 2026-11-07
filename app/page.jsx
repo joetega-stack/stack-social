@@ -17,8 +17,8 @@ function HomeContent() {
     <div className="bg-zinc-50">
       <Header />
       <div className="h-dvh">
-        {/* {tab === "feed" && <Feed/>}
-        {tab === "discover" && <Discover/>} */}
+        {tab === "feed" && <Feed/>}
+        {tab === "discover" && <Discover/>}
       </div>
       <Footer/>
     </div>
