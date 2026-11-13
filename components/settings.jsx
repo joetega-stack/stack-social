@@ -37,7 +37,7 @@ const Settings = () => {
         
   return (
     <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center backdrop-blur-md">
-      <div className="relative h-100 w-100 border bg-white rounded-xl p-5">
+      <div className="relative h-100 lg:w-100 w-80 border bg-white rounded-xl p-5">
         <button
           onClick={() => setOpenSettings(false)}
           className="absolute w-8 h-8 bg-black/30 text-white font-bold text-2xl flex justify-center items-center rounded-full cursor-pointer active:scale-98"
