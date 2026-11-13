@@ -66,7 +66,7 @@ const EditProfile = () => {
   return (
     <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center backdrop-blur-sm z-20"
     onClick={() => setOpenForm(false)}>
-      <form className="flex flex-col p-5 gap-3 border-gray-400 border lg:w-100 w-80 rounded-2xl"
+      <form className="flex bg-white flex-col p-5 gap-3 border-gray-400 border lg:w-100 w-80 rounded-2xl"
       onSubmit={handleSubmit}
       onClick={(e) => e.stopPropagation()}>
         {error ? <p className="text-sm text-red-600">{error}</p> : null}
